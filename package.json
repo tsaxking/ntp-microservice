@@ -36,6 +36,7 @@
     "drizzle-zod": "^0.6.1",
     "fuzzy-search": "^3.2.1",
     "nodemon": "^3.1.10",
+    "ntp-client": "^0.5.3",
     "postgres": "^3.4.7",
     "redis": "^5.6.0",
     "ts-utils": "github:tsaxking/global-ts-utilities",
@@ -47,6 +48,7 @@
     "@types/cli-table": "^0.3.4",
     "@types/express": "^5.0.3",
     "@types/fuzzy-search": "^2.1.5",
-    "@types/node": "^24.0.14"
+    "@types/node": "^24.0.14",
+    "@types/ntp-client": "^0.5.0"
   }
 }
