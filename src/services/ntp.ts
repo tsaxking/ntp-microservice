@@ -10,7 +10,6 @@ type TimeResponse = {
 
 type CachedState = {
 	systemTime: number;
-	offset: number;
 	syncedAt: number;
 };
 
@@ -23,10 +22,11 @@ export const getTime = () => {
 		const cached = await readValidState();
 
 		if (cached) {
-			return {
-				time: Date.now() + cached.offset,
-				date: Date.now()
-			};
+            const offset = Date.now() - cached.syncedAt;
+            return {
+                time: cached.systemTime + offset,
+                date: cached.syncedAt
+            }
 		}
 
 		// 2. Fallback to NTP query
@@ -38,7 +38,6 @@ export const getTime = () => {
 
 		const newState: CachedState = {
 			systemTime: systemNow,
-			offset,
 			syncedAt: Date.now()
 		};
 
@@ -70,7 +69,6 @@ const readValidState = async (): Promise<CachedState | null> => {
 
 		if (
 			typeof state.systemTime !== 'number' ||
-			typeof state.offset !== 'number' ||
 			typeof state.syncedAt !== 'number'
 		) {
 			return null;
