@@ -1,6 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { config } from 'dotenv';
+import { onExit } from '../utils/cleanup';
 config();
 if (!process.env.DB_HOST) throw new Error('DB_HOST is not set');
 if (!process.env.DB_PORT) throw new Error('DB_PORT is not set');
@@ -13,6 +14,10 @@ export const client = postgres({
 	port: Number(process.env.DB_PORT),
 	database: process.env.DB_NAME,
 	username: process.env.DB_USER,
-	password: process.env.DB_PASS
+	password: process.env.DB_PASS,
 });
 export const DB = drizzle(client);
+onExit(() => {
+	client.end();
+	console.log('Database connection closed');
+});
